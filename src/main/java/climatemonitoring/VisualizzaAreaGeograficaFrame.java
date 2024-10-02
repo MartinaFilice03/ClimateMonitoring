@@ -1,4 +1,4 @@
-// Autori: Casalini Iacopo (753132, Varese), Filice Martina (752916, Varese), Radice Samuele (753722, Varese)
+// Autori: Casalini Iacopo (753132, Varese); Filice Martina (752916, Varese) e Radice Samuele (753722, Varese)
 
 package climatemonitoring;
 
@@ -25,6 +25,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import src.main.java.climatemonitoring.HomeFrame;
+
 /**
  * Questa classe rappresenta una finestra per visualizzare informazioni su un'area geografica
  * e gestire commenti associati. La finestra consente di inserire il nome di un'area geografica,
@@ -33,7 +35,6 @@ import javax.swing.SwingUtilities;
 public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListener {
 
     // CAMPI
-	
     private JTextField areaNameField;
     private JTextArea infoTextArea;
     private JTextArea commentTextArea;
@@ -80,14 +81,11 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
 					Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClimateMonitoring", username, password);
 					this.databaseManager = new DatabaseManager(conn);
                 } catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // Inizializza con il costruttore predefinito
         } else {
@@ -150,10 +148,8 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
 				try {
 					rs = (ResultSet) ClientCM.in.readObject();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
                 try {
@@ -163,7 +159,6 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
 					    commentTextArea.setText("");
 					}
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
             
@@ -192,11 +187,6 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
 
         setVisible(true);
     }
-
-    /**
-     * Stabilisce una connessione al database PostgreSQL.
-     */
-    
 
     /**
      * Carica e visualizza il commento associato a una determinata area geografica.
@@ -322,7 +312,6 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
                 try {
 					new VisualizzaAreaGeograficaFrame(dbManager, paginaIniziale, connection).setVisible(true);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             } catch (SQLException e) {
