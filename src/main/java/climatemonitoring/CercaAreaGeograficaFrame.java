@@ -2,18 +2,17 @@
 
 package climatemonitoring;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -37,24 +36,24 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
 	
 	private static PaginaIniziale paginaIniziale;
 	
-    private JTextField searchField;
-    private JTextField latitudeField;
-    private JTextField longitudeField;
-    private JTextArea historyArea;
+    private final JTextField searchField;
+    private final JTextField latitudeField;
+    private final JTextField longitudeField;
+    private final JTextArea historyArea;
 
-    private JButton searchButton;
-    private JButton clearButton;
-    private JButton homeButton;
-    private JButton paginaInizialeButton;
+    private final JButton searchButton;
+    private final JButton clearButton;
+    private final JButton homeButton;
+    private final JButton paginaInizialeButton;
 
-    private JPanel searchPanel;
-    private JPanel buttonPanel;
-    private JPanel historyPanel;
-    private JScrollPane scrollPane;
+    private final JPanel searchPanel;
+    private final JPanel buttonPanel;
+    private final JPanel historyPanel;
+    private final JScrollPane scrollPane;
 
     private DatabaseManager databaseManager;
     
-    private ArrayList<String> searchHistory;
+    private final ArrayList<String> searchHistory;
 
     /**
      * Costruttore della classe 
@@ -230,6 +229,7 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
      * 
      * @param e l'evento di azione generato dai pulsanti
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void actionPerformed(ActionEvent e) {
     	boolean log = LoginFrame.loggato;
@@ -237,14 +237,13 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
         	dispose();
             new PaginaIniziale().setVisible(true);
         } else if (e.getSource() == homeButton && log == true) {
-            new HomeFrame(databaseManager).setVisible(true); // Torna alla HomeFrame
+            new HomeFrame(databaseManager).setVisible(true);
             setVisible(false);
         } else if (e.getSource() == searchButton) {
             String searchTerm = searchField.getText().trim();
             String latString = latitudeField.getText().trim();
             String lonString = longitudeField.getText().trim();
-            //double latitude = Double.NaN;
-            //double longitude = Double.NaN;
+            
 			double latitude = 0.0;
 			double longitude = 0.0;
             
@@ -256,10 +255,8 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
 				try {
 					risultati = (List<AreaGeografica>) ClientCM.in.readObject();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
                 mostraRisultati(risultati);
