@@ -1,4 +1,5 @@
-// Autori: Casalini Iacopo (753132, Varese), Filice Martina (752916, Varese), Radice Samuele (753722, Varese)
+// Autori: Casalini Iacopo (753132, Varese); Filice Martina (752916, Varese) e Radice Samuele (753722, Varese)
+
 package climatemonitoring;
 
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.swing.JOptionPane;
 
 public class DatabaseManager {
@@ -114,14 +116,13 @@ public class DatabaseManager {
         stmt.setString(5, umidita);
         stmt.setString(6, pressioneAtmosferica);
         stmt.setString(7, velocitaVento);
-        stmt.setString(8, precipitazioni);  // Inserisci precipitazioni
-        stmt.setString(9, altitudineGhiacci);  // Inserisci altitudine ghiacci
-        stmt.setString(10, massaGhiacci);  // Inserisci massa ghiacci
+        stmt.setString(8, precipitazioni);
+        stmt.setString(9, altitudineGhiacci);
+        stmt.setString(10, massaGhiacci);
         stmt.setString(11, note);
         stmt.executeUpdate();
     }
 }
-
     
     // Metodo per recuperare i centri monitoraggio per un dato utente
     public List<String> getCentriForUser(String username) throws SQLException {
