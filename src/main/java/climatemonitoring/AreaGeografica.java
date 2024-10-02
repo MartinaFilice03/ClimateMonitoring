@@ -1,4 +1,4 @@
-//Autori: Casalini Iacopo (753132, Varese), Filice Martina (752916, Varese), Radice Samuele (753722, Varese)
+//Autori: Casalini Iacopo (753132, Varese); Filice Martina (752916, Varese) e Radice Samuele (753722, Varese)
 package climatemonitoring;
 
 import java.io.Serializable;
@@ -12,10 +12,10 @@ public class AreaGeografica implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String nome;
-    private String stato;
-    private double latitudine;
-    private double longitudine;
+	private final String nome;
+    private final String stato;
+    private final double latitudine;
+    private final double longitudine;
 
     /**
      * Costruttore della classe

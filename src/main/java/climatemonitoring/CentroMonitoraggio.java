@@ -1,4 +1,4 @@
-// Autori: Casalini Iacopo (753132, Varese), Filice Martina (752916, Varese), Radice Samuele (753722, Varese)
+// Autori: Casalini Iacopo (753132, Varese); Filice Martina (752916, Varese) e Radice Samuele (753722, Varese)
 
 package climatemonitoring;
 
@@ -12,13 +12,13 @@ public class CentroMonitoraggio implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String nomeCitta;
-    private String nomeArea;
-    private String viaPiazza;
-    private String numeroCivico;
-    private String cap;
-    private String comune;
-    private String provincia;
+	private final String nomeCitta;
+    private final String nomeArea;
+    private final String viaPiazza;
+    private final String numeroCivico;
+    private final String cap;
+    private final String comune;
+    private final String provincia;
 
     /**
      * Costruttore per inizializzare un centro di monitoraggio.
