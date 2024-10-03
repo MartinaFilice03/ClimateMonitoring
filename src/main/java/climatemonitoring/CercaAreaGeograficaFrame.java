@@ -2,17 +2,16 @@
 
 package climatemonitoring;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -83,15 +82,12 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
 					Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClimateMonitoring", username, password);
 					this.databaseManager = new DatabaseManager(connection);
                 } catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // Inizializza con il costruttore predefinito
         } else {

@@ -15,6 +15,12 @@ import java.net.UnknownHostException;
 
 import javax.swing.SwingUtilities;
 
+/**
+ * La classe ClientCM si occupa della connessione a un server di monitoraggio climatico,
+ * utilizzando socket per la comunicazione tra client e server.
+ * Consente la trasmissione e ricezione di messaggi e oggetti attraverso flussi di input/output.
+ * Inoltre, l'applicazione avvia un'interfaccia grafica Swing.
+ */
 public class ClientCM {
 	static Socket socket;
 	public static ObjectOutputStream out;
