@@ -23,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 /**
  * Questa classe rappresenta una finestra per visualizzare informazioni su un'area geografica
@@ -31,34 +30,23 @@ import javax.swing.SwingUtilities;
  * visualizzare le sue informazioni e i dati climatici, e salvare commenti per l'area.
  */
 public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListener {
-
     // CAMPI
     private JTextField areaNameField;
     private JTextArea infoTextArea;
     private JTextArea commentTextArea;
 
     private static PaginaIniziale paginaIniziale;
-    
+
     private JButton visualizzaButton;
     private JButton homeButton;
     private JButton saveCommentButton;
     private JButton paginaInizialeButton;
 
-    private JScrollPane scrollPane;
-    private JPanel buttonPanel;
-    private JPanel inputPanel;
-    private JPanel commentPanel;
-    private static Connection connection;
-
     private DatabaseManager databaseManager;
+    private Connection connection;
 
+    // Formattazione per i dati climatici
     private DecimalFormat temperaturaFormat = new DecimalFormat("#.##");
-    private DecimalFormat umiditaFormat = new DecimalFormat("#.##");
-    private DecimalFormat pressioneAtmosfericaFormat = new DecimalFormat("#.##");
-    private DecimalFormat velocitaVentoFormat = new DecimalFormat("#.##");
-    private DecimalFormat precipitazioniFormat = new DecimalFormat("#.##");
-    private DecimalFormat altitudineGhiacciFormat = new DecimalFormat("#.##");
-    private DecimalFormat massaGhiacciFormat = new DecimalFormat("#.##");
 
     /**
      * Costruttore della classe VisualizzaAreaGeograficaFrame.
@@ -67,41 +55,25 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
      * @throws SQLException se si verifica un errore durante la connessione al database
      */
     public VisualizzaAreaGeograficaFrame(DatabaseManager databaseManager, PaginaIniziale paginaIniziale, Connection connection) throws SQLException {
-    	
-    	if (databaseManager == null) {
-            try {
-            	ClientCM.writer.println("getCredentials");
-                try {
-                	String username = (String) ClientCM.in.readObject();
-                	System.out.println(username);
-					String password = (String) ClientCM.in.readObject();
-					System.out.println(password);
-					Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClimateMonitoring", username, password);
-					this.databaseManager = new DatabaseManager(conn);
-                } catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} // Inizializza con il costruttore predefinito
-        } else {
-            this.databaseManager = databaseManager;
-        }
-    	
-    	if(paginaIniziale == null) {
-    		this.paginaIniziale = new PaginaIniziale();
-    	}else {
-    		this.paginaIniziale = paginaIniziale;
-    	}
-    	
+        this.databaseManager = (databaseManager == null) ? initializeDatabaseManager() : databaseManager;
+        this.paginaIniziale = (paginaIniziale == null) ? new PaginaIniziale() : paginaIniziale;
+        this.connection = connection != null ? connection : this.databaseManager.getConnection();
+
+        setupUI(); // Metodo che configura l'interfaccia grafica
+
+        setVisible(true);
+    }
+
+    /**
+     * Configura l'interfaccia grafica della finestra.
+     */
+    private void setupUI() {
         setTitle("Visualizza Area Geografica");
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Pannello per l'inserimento del nome dell'area
-        inputPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        JPanel inputPanel = new JPanel(new GridLayout(2, 1, 10, 10));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         inputPanel.add(new JLabel("Nome Area:"));
         areaNameField = new JTextField(20);
@@ -111,62 +83,25 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
         // Area di testo per mostrare le informazioni
         infoTextArea = new JTextArea(15, 30);
         infoTextArea.setEditable(false);
-        scrollPane = new JScrollPane(infoTextArea);
-        add(scrollPane, BorderLayout.CENTER);
+        add(new JScrollPane(infoTextArea), BorderLayout.CENTER);
 
         // Pannello per i commenti
-        commentPanel = new JPanel(new BorderLayout());
+        JPanel commentPanel = new JPanel(new BorderLayout());
         commentTextArea = new JTextArea(5, 30);
         commentTextArea.setBorder(BorderFactory.createTitledBorder("Aggiungi Commento"));
         commentPanel.add(new JScrollPane(commentTextArea), BorderLayout.CENTER);
+        add(commentPanel, BorderLayout.EAST);
 
         // Pannello per i pulsanti
-        buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
         visualizzaButton = new JButton("Visualizza");
         homeButton = new JButton("Torna alla Home");
         saveCommentButton = new JButton("Salva Commento");
         paginaInizialeButton = new JButton("Torna alla Pagina Iniziale");
 
-        visualizzaButton.addActionListener(e -> {
-            String areaName = areaNameField.getText().trim();
-            if (areaName.isEmpty()) {
-                infoTextArea.setText("Inserisci un nome di area valido.");
-            } else {
-                try {
-					displayAreaInformation(areaName);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-                ClientCM.writer.println("loadComment");
-                ClientCM.writer.println(areaName);
-                
-                ClientCM.writer.println("getResultSet");
-                ResultSet rs = null;
-				try {
-					rs = (ResultSet) ClientCM.in.readObject();
-				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-                try {
-					if (rs != null && rs.next()) {
-					    commentTextArea.setText(rs.getString("note"));
-					} else {
-					    commentTextArea.setText("");
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-            
-            }
-        });
-
-        
+        // Aggiungi ActionListener ai pulsanti
+        visualizzaButton.addActionListener(this);
         saveCommentButton.addActionListener(this);
-        
-        
         homeButton.addActionListener(this);
         paginaInizialeButton.addActionListener(this);
 
@@ -175,147 +110,175 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
         buttonPanel.add(saveCommentButton);
         buttonPanel.add(paginaInizialeButton);
         add(buttonPanel, BorderLayout.SOUTH);
-        add(commentPanel, BorderLayout.EAST);
 
         pack();
         setLocationRelativeTo(null); // Centra la finestra sullo schermo
-
-        // Connessione al database
-        ClientCM.writer.println("connectToDatabase");
-
-        setVisible(true);
     }
 
     /**
-     * Carica e visualizza il commento associato a una determinata area geografica.
-     * 
-     * @param areaName il nome dell'area geografica per cui caricare il commento
+     * Inizializza il DatabaseManager nel caso in cui non sia fornito al costruttore.
      */
-    
+    private DatabaseManager initializeDatabaseManager() throws SQLException {
+        try {
+            ClientCM.writer.println("getCredentials");
+            String username = (String) ClientCM.in.readObject();
+            String password = (String) ClientCM.in.readObject();
+            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClimateMonitoring", username, password);
+            return new DatabaseManager(conn);
+        } catch (ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+            throw new SQLException("Errore durante l'inizializzazione del DatabaseManager.");
+        }
+    }
 
     /**
-     * Salva un commento per una determinata area geografica.
-     * 
-     * @param areaName il nome dell'area geografica per cui salvare il commento
-     * @param comment il commento da salvare
-     * @throws SQLException 
+     * Visualizza le informazioni dell'area selezionata.
      */
-    
+    private void visualizzaArea() {
+        String areaName = areaNameField.getText().trim();
+        if (areaName.isEmpty()) {
+            infoTextArea.setText("Inserisci un nome di area valido.");
+            return;
+        }
 
+        try {
+            displayAreaInformation(areaName);
+            loadComment(areaName);
+        } catch (SQLException e) {
+            showError("Errore durante il caricamento dell'area: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Carica e visualizza le informazioni dell'area.
+     */
     private void displayAreaInformation(String areaName) throws SQLException {
-        // Query per recuperare le informazioni dell'area
-        String areaQuery = "SELECT \"geoname_id\", \"name\", \"ascii_name\", \"country_code\", \"country_name\", \"latitude\", \"longitude\" FROM \"CoordinateMonitoraggio\" WHERE \"name\" = ?";
-        
-    	if(connection == null) {
-    		this.connection = databaseManager.getConnection(ServerCM.dbUsername, ServerCM.dbPassword);
-    	}else {
-    		this.connection = connection;
-    	}
-
-        try (PreparedStatement pstArea = connection.prepareStatement(areaQuery)) {
-            pstArea.setString(1, areaName);
-            try (ResultSet rsArea = pstArea.executeQuery()) {
-                if (rsArea.next()) {
-                    // Recupera i dati dal ResultSet
-                    String geonameId = rsArea.getString("geoname_id");
-                    String name = rsArea.getString("name");
-                    String asciiName = rsArea.getString("ascii_name");
-                    String countryCode = rsArea.getString("country_code");
-                    String countryName = rsArea.getString("country_name");
-                    String latitude = rsArea.getString("latitude");
-                    String longitude = rsArea.getString("longitude");
-                    
-                    // Costruisci il messaggio da visualizzare
+        String query = "SELECT * FROM \"CoordinateMonitoraggio\" WHERE \"name\" = ?";
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, areaName);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
                     StringBuilder sb = new StringBuilder();
-                    sb.append("Informazioni per l'area: ").append(name).append("\n\n");
-                    sb.append("GeoName ID: ").append(geonameId).append("\n");
-                    sb.append("Nome: ").append(name).append("\n");
-                    sb.append("Nome ASCII: ").append(asciiName).append("\n");
-                    sb.append("Codice Paese: ").append(countryCode).append("\n");
-                    sb.append("Nome Paese: ").append(countryName).append("\n");
-                    sb.append("Latitudine: ").append(latitude).append("\n");
-                    sb.append("Longitudine: ").append(longitude).append("\n");
-                    
-                    // Aggiungi il prospetto dei parametri climatici
-                    sb.append("\nDati Climatici:\n");
-                    String climateQuery = "SELECT \"data_rilevazione\", \"temperatura\", \"umidità\", \"pressioneatmosferica\", \"velocitàvento\", \"precipitazioni\", \"altitudine_dei_ghiacci\", \"massa_dei_ghiacci\" FROM \"ParametriClimatici\" WHERE \"areainteresse\" = ?";
-                    
-                    try (PreparedStatement pstClimate = connection.prepareStatement(climateQuery)) {
-                        pstClimate.setString(1, areaName);
-                        try (ResultSet rsClimate = pstClimate.executeQuery()) {
-                            if (rsClimate.next()) {
-                                do {
-                                    sb.append("Data Rilevazione: ").append(rsClimate.getString("data_rilevazione")).append("\n");
-                                    sb.append("Temperatura: ").append(rsClimate.getString("temperatura")).append(" °C\n");
-                                    sb.append("Umidità: ").append(rsClimate.getString("umidità")).append(" %\n");
-                                    sb.append("Pressione Atmosferica: ").append(rsClimate.getString("pressioneatmosferica")).append(" hPa\n");
-                                    sb.append("Velocità del Vento: ").append(rsClimate.getString("velocitàvento")).append(" km/h\n");
-                                    sb.append("Precipitazioni: ").append(rsClimate.getString("precipitazioni")).append(" mm\n");
-                                    sb.append("Altitudine dei Ghiacci: ").append(rsClimate.getString("altitudine_dei_ghiacci")).append(" m\n");
-                                    sb.append("Massa dei Ghiacci: ").append(rsClimate.getString("massa_dei_ghiacci")).append(" tonnellate\n");
-                                    sb.append("\n");
-                                } while (rsClimate.next());
-                            } else {
-                                sb.append("Nessun dato climatico trovato per questa area.");
-                            }
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        sb.append("Errore durante il recupero dei dati climatici.");
-                    }
-                    
+                    sb.append("Informazioni per l'area: ").append(rs.getString("name")).append("\n");
+                    sb.append("GeoName ID: ").append(rs.getString("geoname_id")).append("\n");
+                    sb.append("Latitudine: ").append(rs.getString("latitude")).append("\n");
+                    sb.append("Longitudine: ").append(rs.getString("longitude")).append("\n");
                     infoTextArea.setText(sb.toString());
+                    displayClimateData(areaName);
                 } else {
                     infoTextArea.setText("Area non trovata.");
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            infoTextArea.setText("Errore durante la lettura dei dati dal database.");
         }
     }
-    
 
     /**
-     * Gestisce gli eventi di azione generati dai pulsanti della finestra.
-     * 
-     * @param e l'evento di azione da gestire
+     * Mostra i dati climatici associati a un'area.
      */
+    private void displayClimateData(String areaName) throws SQLException {
+        String climateQuery = "SELECT * FROM \"ParametriClimatici\" WHERE \"areainteresse\" = ?";
+        try (PreparedStatement pst = connection.prepareStatement(climateQuery)) {
+            pst.setString(1, areaName);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    StringBuilder sb = new StringBuilder("\nDati Climatici:\n");
+                    do {
+                        sb.append("Data Rilevazione: ").append(rs.getString("data_rilevazione")).append("\n");
+                        sb.append("Temperatura: ").append(temperaturaFormat.format(rs.getDouble("temperatura"))).append(" °C\n");
+                        sb.append("Umidità: ").append(rs.getDouble("umidita")).append(" %\n");
+                        sb.append("Pressione: ").append(rs.getDouble("pressione")).append(" hPa\n");
+                        // Aggiungi altre informazioni climatiche qui
+                    } while (rs.next());
+                    infoTextArea.append(sb.toString());
+                } else {
+                    infoTextArea.append("Nessun dato climatico disponibile.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Carica il commento per l'area specificata.
+     */
+    private void loadComment(String areaName) {
+        ClientCM.writer.println("loadComment");
+        ClientCM.writer.println(areaName);
+        try {
+            ResultSet rs = (ResultSet) ClientCM.in.readObject();
+            if (rs != null && rs.next()) {
+                commentTextArea.setText(rs.getString("note"));
+            } else {
+                commentTextArea.setText("");
+            }
+        } catch (Exception e) {
+            showError("Errore durante il caricamento del commento.");
+        }
+    }
+
+    /**
+     * Salva il commento inserito dall'utente.
+     */
+    private void salvaCommento() {
+        String areaName = areaNameField.getText().trim();
+        String comment = commentTextArea.getText().trim();
+
+        if (areaName.isEmpty() || comment.isEmpty()) {
+            showError("Inserisci un nome di area e un commento validi.");
+            return;
+        }
+
+        try {
+            ClientCM.writer.println("saveComment");
+            ClientCM.writer.println(areaName);
+            ClientCM.writer.println(comment);
+            showMessage("Commento salvato con successo.");
+        } catch (Exception e) {
+            showError("Errore durante il salvataggio del commento.");
+        }
+    }
+
+    /**
+     * Mostra un messaggio di errore in una finestra di dialogo.
+     */
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Errore", JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Mostra un messaggio di successo in una finestra di dialogo.
+     */
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message, "Successo", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Ritorna alla pagina iniziale.
+     */
+    private void tornaPaginaIniziale() {
+        paginaIniziale.setVisible(true);
+        dispose();
+    }
+
+    /**
+     * Azione per tornare alla home.
+     */
+    private void tornaHome() {
+        JOptionPane.showMessageDialog(this, "Tornando alla home...");
+        dispose();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-    	boolean log = LoginFrame.loggato;
         Object source = e.getSource();
-        if (source == homeButton && log == true) {
-            new HomeFrame(databaseManager).setVisible(true);
-            setVisible(false);
+        
+        if (source == visualizzaButton) {
+            visualizzaArea();
+        } else if (source == saveCommentButton) {
+            salvaCommento();
+        } else if (source == homeButton) {
+            tornaHome();
         } else if (source == paginaInizialeButton) {
-        	dispose();
-        	new PaginaIniziale().setVisible(true);
-        }else if(source == saveCommentButton) {
-        	ClientCM.writer.println("saveComment");
-            ClientCM.writer.println(areaNameField.getText().trim());
-            ClientCM.writer.println(commentTextArea.getText().trim());
-        }else if (log == false) {
-        	JOptionPane.showMessageDialog(null, "Per accedere a questa funzione devi essere registrato.", "Attenzione", JOptionPane.ERROR_MESSAGE);
+            tornaPaginaIniziale();
         }
-    }
-
-    /**
-     * Punto di ingresso dell'applicazione, che avvia la finestra di visualizzazione dell'area geografica.
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                DatabaseManager dbManager = new DatabaseManager();
-                try {
-					new VisualizzaAreaGeograficaFrame(dbManager, paginaIniziale, connection).setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Errore di connessione al database: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-        });
     }
 }
