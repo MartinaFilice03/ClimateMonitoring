@@ -22,7 +22,7 @@ import javax.swing.JTextField;
  * Consente all'utente di inserire le proprie informazioni e registrarle nel database.
  */
 public class RegistrazioneFrame extends JFrame {
-    
+    //CAMPI
 	private JTextField nomeField;
     private JTextField cognomeField;
     private JTextField codiceFiscaleField;
@@ -59,7 +59,6 @@ public class RegistrazioneFrame extends JFrame {
             try {
 				this.databaseManager = new DatabaseManager();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // Inizializza con il costruttore predefinito
         } else {
@@ -71,6 +70,7 @@ public class RegistrazioneFrame extends JFrame {
     	}else {
     		this.paginaIniziale = paginaIniziale;
     	}
+
         setTitle("Registrazione");
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -171,7 +171,7 @@ public class RegistrazioneFrame extends JFrame {
             
         	JOptionPane.showMessageDialog(this, "Registrazione avvenuta con successo!");
             // Torna alla pagina principale
-            new PaginaIniziale(); // Crea una nuova istanza della pagina iniziale
+            new PaginaIniziale();
             setVisible(false);
         } else {
             showErrorDialog("Errore: databaseManager non inizializzato correttamente.");

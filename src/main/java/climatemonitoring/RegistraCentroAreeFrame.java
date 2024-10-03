@@ -31,7 +31,7 @@ public class RegistraCentroAreeFrame extends JFrame {
     private JTextField provinciaField;
     private JTextArea nomeAreaArea;
 
-    private static String usernameAutenticato;  // Mantenuto il campo usernameAutenticato
+    private static String usernameAutenticato;
 
     private JButton registraButton;
     private JButton homeButton;
@@ -131,9 +131,7 @@ public class RegistraCentroAreeFrame extends JFrame {
     String cap = capField.getText().trim();
     String comune = comuneField.getText().trim();
     String provincia = provinciaField.getText().trim();
-    String nomeArea = nomeAreaArea.getText().trim(); // Nome dell'area di interesse
-    
-    
+    String nomeArea = nomeAreaArea.getText().trim();
 
     /**
      * Salva i dati del centro di monitoraggio nel database.

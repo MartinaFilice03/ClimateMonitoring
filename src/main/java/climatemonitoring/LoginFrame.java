@@ -2,13 +2,27 @@
 
 package climatemonitoring;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 /**
  * Questa classe rappresenta una finestra di login per l'autenticazione degli utenti.
@@ -43,6 +57,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
         this.databaseManager = databaseManager;
         */
+        
     	if (databaseManager == null) {
             try {
             	ClientCM.writer.println("getCredentials");
@@ -54,14 +69,11 @@ public class LoginFrame extends JFrame implements ActionListener {
 					Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClimateMonitoring", username, password);
 					this.databaseManager = new DatabaseManager(connection);
                 } catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // Inizializza con il costruttore predefinito
         } else {
@@ -99,16 +111,15 @@ public class LoginFrame extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new PaginaIniziale(); // Riapre la finestra principale quando si clicca su "Indietro"
+                new PaginaIniziale();
             }
         });
         buttonPanel.add(indietroButton);
 
-        // Aggiungi il buttonPanel al frame
         add(buttonPanel, BorderLayout.SOUTH);
 
         pack();
-        setLocationRelativeTo(null); // Centra la finestra sullo schermo
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -131,10 +142,8 @@ public class LoginFrame extends JFrame implements ActionListener {
 			autenticato = ClientCM.in.readObject();
 			a = (boolean) autenticato;
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -144,7 +153,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 		    // Dopo il login avvenuto con successo, passa alla HomeFrame
 		    HomeFrame homeFrame = new HomeFrame(databaseManager);
 		    homeFrame.setVisible(true);
-		    dispose(); // Chiudi la finestra di login dopo il login
+		    dispose();
 		} else {
 		    JOptionPane.showMessageDialog(this, "Accesso non consentito. Riprova.", "Errore", JOptionPane.ERROR_MESSAGE);
 		    usernameField.setText("");

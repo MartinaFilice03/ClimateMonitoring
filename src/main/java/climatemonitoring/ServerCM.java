@@ -44,7 +44,6 @@ public class ServerCM {
 	}
 	
 	public static void main(String[] args) {
-		
     	String dbHost = "localhost";
         String dbPort = "5432";
         String dbName = "ClimateMonitoring";
@@ -107,10 +106,8 @@ public class ServerCM {
                 		try {
     						salvaDati(nome, cognome, codiceFiscale, email, username, password, centroMonitoraggio);
     					} catch (SQLException e) {
-    						// TODO Auto-generated catch block
     						e.printStackTrace();
     					} catch (UsernameEsistenteException e) {
-    						// TODO Auto-generated catch block
     						e.printStackTrace();
     					}
                 		break;
@@ -120,7 +117,6 @@ public class ServerCM {
     						boolean result = verificaUsernameEsistente(user);
     						out.writeObject(result);
     					} catch (SQLException e) {
-    						// TODO Auto-generated catch block
     						e.printStackTrace();
     					}
                 		break;
@@ -131,7 +127,6 @@ public class ServerCM {
                 			boolean risultato = login(u, p);
     						out.writeObject(risultato);
     					} catch (SQLException e) {
-    						// TODO Auto-generated catch block
     						e.printStackTrace();
     					}
                 		break;
@@ -151,7 +146,6 @@ public class ServerCM {
     						boolean y = verificaCentroEsistente(x);
     						out.writeObject(y);
     					} catch (SQLException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
                 		break;
@@ -162,7 +156,6 @@ public class ServerCM {
     						List<String> list = getCentriForUser(a);
     						out.writeObject(list);
     					} catch (SQLException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
                 		break;
@@ -181,7 +174,6 @@ public class ServerCM {
                 		try {
     						inserisciParametriClimatici(centroM, areaMonitoraggio, dataRilevazione, temperatura, umidita, pressioneAtmosferica, velocitàVento, precipitazioni, altitudineGhiacci, massaGhiacchi, note);
     					} catch (SQLException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
                 		break;
@@ -197,7 +189,6 @@ public class ServerCM {
     						Connection connection = getConnection();
     						out.writeObject(connection);
     					} catch (SQLException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
                 		break;
@@ -253,7 +244,6 @@ public class ServerCM {
     						AreaGeografica areaG = getClosestArea();
     						out.writeObject(areaG);
     					} catch (Exception e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
                 		break;
@@ -292,7 +282,6 @@ public class ServerCM {
                 		try {
     						registraCentroAree(name, via, numeroCivico, cap, comune, provincia, nomeArea);
     					} catch (SQLException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
                 		break;
@@ -301,10 +290,8 @@ public class ServerCM {
     						CentroMonitoraggio centro = (CentroMonitoraggio) in.readObject();
     						salvaCentroNelDatabase(centro);
     					} catch (ClassNotFoundException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					} catch (SQLException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
                 		break;	
@@ -317,10 +304,6 @@ public class ServerCM {
 
     	         // Invia un messaggio al server - writer.println()
     	         // Riceve la risposta dal server - reader.readLine()
-                
-                
-
-            
         	}finally {
         		// Chiude le risorse
                 //clientSocket.close();
@@ -381,7 +364,7 @@ public class ServerCM {
     }
     
     public static boolean isValidCodiceFiscale(String codiceFiscale) {
-        return codiceFiscale.length() == 16; // Puoi aggiungere ulteriori validazioni qui
+        return codiceFiscale.length() == 16;
     }
     
     public static boolean isValidEmail(String email) {
@@ -442,7 +425,6 @@ public class ServerCM {
                 );
                 risultati.add(area);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Errore durante la ricerca: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
@@ -474,7 +456,6 @@ public class ServerCM {
                     );
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Errore durante la ricerca: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
@@ -530,7 +511,6 @@ public class ServerCM {
     		try {
 				connection = databaseManager.getConnection(ServerCM.dbUsername, ServerCM.dbPassword);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     	}
