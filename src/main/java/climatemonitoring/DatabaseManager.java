@@ -14,8 +14,12 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+/**
+ * La classe DatabaseManager gestisce tutte le operazioni di interazione con il database
+ * per il sistema di monitoraggio climatico. Permette la gestione di utenti, inserimento di parametri climatici,
+ * verifica di centri di monitoraggio e aree di interesse.
+ */
 public class DatabaseManager {
-	
     private static final String DB_URL = "jdbc:postgresql://localhost:5432/ClimateMonitoring";
     private static String USER = ServerCM.dbUsername;
     private static String PASS = ServerCM.dbPassword;
@@ -105,24 +109,24 @@ public class DatabaseManager {
         String temperatura, String umidita, String pressioneAtmosferica, String velocitaVento, 
         String precipitazioni, String altitudineGhiacci, String massaGhiacci, String note) throws SQLException {
     
-    String query = "INSERT INTO \"ParametriClimatici\" (\"centro_monitoraggio\",\"areainteresse\", \"data_rilevazione\", \"temperatura\", \"umidità\", \"pressioneatmosferica\", \"velocitàvento\", \"precipitazioni\", \"altitudine_dei_ghiacci\", \"massa_dei_ghiacci\", \"note\") " +
-                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO \"ParametriClimatici\" (\"centro_monitoraggio\",\"areainteresse\", \"data_rilevazione\", \"temperatura\", \"umidità\", \"pressioneatmosferica\", \"velocitàvento\", \"precipitazioni\", \"altitudine_dei_ghiacci\", \"massa_dei_ghiacci\", \"note\") " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    try (PreparedStatement stmt = connection.prepareStatement(query)) {
-    	stmt.setString(1, centroMonitoraggio);
-        stmt.setString(2, areaMonitoraggio);
-        stmt.setString(3, dataRilevazione);
-        stmt.setString(4, temperatura);
-        stmt.setString(5, umidita);
-        stmt.setString(6, pressioneAtmosferica);
-        stmt.setString(7, velocitaVento);
-        stmt.setString(8, precipitazioni);
-        stmt.setString(9, altitudineGhiacci);
-        stmt.setString(10, massaGhiacci);
-        stmt.setString(11, note);
-        stmt.executeUpdate();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, centroMonitoraggio);
+            stmt.setString(2, areaMonitoraggio);
+            stmt.setString(3, dataRilevazione);
+            stmt.setString(4, temperatura);
+            stmt.setString(5, umidita);
+            stmt.setString(6, pressioneAtmosferica);
+            stmt.setString(7, velocitaVento);
+            stmt.setString(8, precipitazioni);
+            stmt.setString(9, altitudineGhiacci);
+            stmt.setString(10, massaGhiacci);
+            stmt.setString(11, note);
+            stmt.executeUpdate();
+        }
     }
-}
     
     // Metodo per recuperare i centri monitoraggio per un dato utente
     public List<String> getCentriForUser(String username) throws SQLException {

@@ -1,4 +1,4 @@
-// Autori: Casalini Iacopo (753132, Varese), Filice Martina (752916, Varese), Radice Samuele (753722, Varese)
+// Autori: Casalini Iacopo (753132, Varese); Filice Martina (752916, Varese) e Radice Samuele (753722, Varese)
 package climatemonitoring;
 
 import java.awt.GridLayout;
@@ -6,10 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
@@ -65,10 +63,8 @@ public class InserisciParametriClimaticiFrame extends JFrame implements ActionLi
 			Set<String> Aree = (Set<String>) ClientCM.in.readObject();
 			this.areeMonitoraggio = Aree;
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -82,9 +78,9 @@ public class InserisciParametriClimaticiFrame extends JFrame implements ActionLi
         velocitaVentoFormat = new DecimalFormat("0.0");
 
         setTitle("Inserisci Parametri Climatici");
-        setSize(400, 450); // Aumenta la dimensione della finestra per adattare i nuovi campi
+        setSize(400, 450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(11, 2)); // Modifica la griglia per aggiungere più campi
+        setLayout(new GridLayout(11, 2));
 
         add(new JLabel("Note:"));
         noteField = new JTextField();
@@ -139,8 +135,7 @@ public class InserisciParametriClimaticiFrame extends JFrame implements ActionLi
     }
 
     /**
-     * Gestisce gli eventi di clic sui bottoni.
-     * 
+     * Gestisce gli eventi di clic sui bottoni
      * @param e l'evento di clic
      */
     @Override
@@ -165,8 +160,6 @@ public class InserisciParametriClimaticiFrame extends JFrame implements ActionLi
                 DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 String dataRilevazione = data.format(formato);
                
-                
-
                 // Verifica se l'area di monitoraggio esiste
                 if (areeMonitoraggio.contains(areaDiMonitoraggio)) {
                     ClientCM.writer.println("inserisciParametriClimatici");

@@ -1,4 +1,4 @@
-// Autori: Casalini Iacopo (753132, Varese), Filice Martina (752916, Varese), Radice Samuele (753722, Varese)
+// Autori: Casalini Iacopo (753132, Varese); Filice Martina (752916, Varese) e Radice Samuele (753722, Varese)
 
 package climatemonitoring;
 
@@ -49,7 +49,7 @@ public class HomeFrame extends JFrame implements ActionListener {
      * @param databaseManager il gestore del database da utilizzare
      */
     public HomeFrame(DatabaseManager databaseManager) {
-        this(databaseManager, null); // Passa un valore di default o gestisci l'assenza del secondo parametro
+        this(databaseManager, null); 
     }
 
     /**
@@ -62,9 +62,6 @@ public class HomeFrame extends JFrame implements ActionListener {
         this.databaseManager = databaseManager;
         this.usernameAutenticato = usernameAutenticato;
 
-        /* E' una costante che indica che l'intera 
-        applicazione dovrebbe terminare 
-        quando la finestra viene chiusa */
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -74,7 +71,7 @@ public class HomeFrame extends JFrame implements ActionListener {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
         titleLabel.setOpaque(true);
         titleLabel.setBackground(Color.BLUE);
-        titleLabel.setPreferredSize(new Dimension(600, 80)); // Dimensione del titolo
+        titleLabel.setPreferredSize(new Dimension(600, 80));
         add(titleLabel, BorderLayout.NORTH);
 
         // Pannello principale per contenere i bottoni
@@ -86,7 +83,7 @@ public class HomeFrame extends JFrame implements ActionListener {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10); // Spaziatura tra i bottoni
+        gbc.insets = new Insets(10, 10, 10, 10);
 
         // Bottone Cerca Area Geografica
         cercaAreaGeograficaButton = new JButton("Cerca Area Geografica");
@@ -120,7 +117,7 @@ public class HomeFrame extends JFrame implements ActionListener {
         mainPanel.add(registraCentroAreeButton, gbc);
 
         pack();
-        setLocationRelativeTo(null); // Centra la finestra sullo schermo
+        setLocationRelativeTo(null);
     }
 
     /**
