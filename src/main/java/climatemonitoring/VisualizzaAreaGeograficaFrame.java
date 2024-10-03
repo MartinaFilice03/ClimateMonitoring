@@ -25,8 +25,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import src.main.java.climatemonitoring.HomeFrame;
-
 /**
  * Questa classe rappresenta una finestra per visualizzare informazioni su un'area geografica
  * e gestire commenti associati. La finestra consente di inserire il nome di un'area geografica,

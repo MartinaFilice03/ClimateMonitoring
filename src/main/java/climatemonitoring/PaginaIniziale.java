@@ -1,6 +1,6 @@
 // Autori: Casalini Iacopo (753132, Varese), Filice Martina (752916, Varese), Radice Samuele (753722, Varese)
 
-package src.main.java.climatemonitoring;
+package climatemonitoring;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
