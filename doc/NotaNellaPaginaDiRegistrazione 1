@@ -1,0 +1,20 @@
+Istruzioni per Avviare l'Applicazione
+Per far partire l'applicazione, seguendo le indicazioni specificate nel progetto (senza dover far partire il codice dall’IDE), devi eseguire i file .jar generati. Ecco come fare:
+	1	Avviare il Server:
+	◦	Avvia il file demo-1.0-SNAPSHOT.jar. Questo file è il JAR principale dell'applicazione. Una volta che hai inserito tutte le informazioni richieste dal database e configurato il server, puoi passare al client.
+	2	Avviare il Client:
+	◦	Dopo aver avviato il server e configurato le informazioni, esegui il file demo-1.0-SNAPSHOT-simpleClient.jar. Questo file rappresenta il client dell'applicazione.
+Opzioni per Avviare i File .jar
+Ci sono due opzioni per avviare i file .jar:
+	1	Doppio Click:
+	◦	Puoi semplicemente fare doppio click sui file .jar (come demo-1.0-SNAPSHOT.jar e demo-1.0-SNAPSHOT-simpleClient.jar) per avviarli.
+	2	Dal Terminale:
+	◦	Naviga nella directory target utilizzando il comando: cd target
+	◦	Poi esegui il file JAR con il comando: java -jar nomefile.jar
+Sostituisci nomefile.jar con il nome del file .jar che desideri avviare (ad esempio, demo-1.0-SNAPSHOT.jar o demo-1.0-SNAPSHOT-simpleClient.jar)
+
+Nota Bene
+Dopo che fai partire questi file jar si apre la PaginaIniziale che si chiama ClimateMonitoringProgram, quando ci si registra, il 
+CentroDiMonitoraggio deve essere una delle varie città presenti nel file csv dato che c’è il vincolo della foreign key tra centroDiMonitoraggio 
+e il nome_città tra le tabelle oppure una che è stata creata con le varie funzioni perché senò ti esce l’errore che non è presente la città del 
+centro monitoraggio. 
