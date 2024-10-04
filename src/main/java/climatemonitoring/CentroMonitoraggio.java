@@ -8,9 +8,6 @@ import java.io.Serializable;
  * Questa classe rappresenta un centro di monitoraggio con tutti i suoi dettagli.
  */
 public class CentroMonitoraggio implements Serializable {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final String nomeCitta;
     private final String nomeArea;

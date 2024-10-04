@@ -198,7 +198,6 @@ public class DatabaseManager {
     }
 
     public Connection getConnection() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getConnection'");
     }
 }

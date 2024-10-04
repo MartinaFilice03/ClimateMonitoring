@@ -8,9 +8,6 @@ import java.io.Serializable;
  * Fornisce i metodi per ottenere le informazioni sui vari attributi dell'area geografica.
  */
 public class AreaGeografica implements Serializable {
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final String nome;
     private final String stato;
