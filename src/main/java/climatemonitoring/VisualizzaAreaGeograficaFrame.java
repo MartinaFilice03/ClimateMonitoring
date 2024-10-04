@@ -112,7 +112,7 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
         add(buttonPanel, BorderLayout.SOUTH);
 
         pack();
-        setLocationRelativeTo(null); // Centra la finestra sullo schermo
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -255,7 +255,7 @@ public class VisualizzaAreaGeograficaFrame extends JFrame implements ActionListe
      * Ritorna alla pagina iniziale.
      */
     private void tornaPaginaIniziale() {
-        paginaIniziale.setVisible(true);
+        PaginaIniziale.setVisible(true);
         dispose();
     }
 

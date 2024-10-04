@@ -69,8 +69,9 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
             }
         }
 
-        this.databaseManager = databaseManager;
-*/
+            this.databaseManager = databaseManager;
+        */
+
     	if (databaseManager == null) {
             try {
             	ClientCM.writer.println("getCredentials");
@@ -81,9 +82,7 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
 					System.out.println(password);
 					Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClimateMonitoring", username, password);
 					this.databaseManager = new DatabaseManager(connection);
-                } catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
+                } catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 				}
 				
@@ -99,7 +98,6 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
     	}else {
     		this.paginaIniziale = paginaIniziale;
     	}
-    	
     	
         // Impostazioni del frame
         setTitle("Cerca Area Geografica");
@@ -250,9 +248,7 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
                 List<AreaGeografica> risultati = null;
 				try {
 					risultati = (List<AreaGeografica>) ClientCM.in.readObject();
-				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
+				} catch (ClassNotFoundException | IOException e1) {
 					e1.printStackTrace();
 				}
                 mostraRisultati(risultati);
@@ -269,10 +265,8 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
 				try {
 					closestArea = (AreaGeografica) ClientCM.in.readObject();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
                 if (closestArea != null) {

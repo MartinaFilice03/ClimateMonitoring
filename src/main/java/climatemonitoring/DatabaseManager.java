@@ -196,4 +196,9 @@ public class DatabaseManager {
             JOptionPane.showMessageDialog(null, "Errore durante la chiusura del PreparedStatement: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public Connection getConnection() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getConnection'");
+    }
 }
