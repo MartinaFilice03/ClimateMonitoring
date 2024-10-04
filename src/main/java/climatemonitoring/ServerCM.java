@@ -40,7 +40,7 @@ public class ServerCM {
 	// COSTRUTTORE
 	public ServerCM(DatabaseManager databaseManager) {
 		super();
-		this.databaseManager = databaseManager;
+		ServerCM.databaseManager = databaseManager;
 	}
 	
 	public static void main(String[] args) {
@@ -111,6 +111,7 @@ public class ServerCM {
     						e.printStackTrace();
     					}
                 		break;
+
                 	case "verificaUsernameEsistente":
                 		String user = reader.readLine();
                 		try {
@@ -120,6 +121,7 @@ public class ServerCM {
     						e.printStackTrace();
     					}
                 		break;
+
                 	case "login":
                 		String u = reader.readLine();
                 		String p = reader.readLine();
@@ -130,6 +132,7 @@ public class ServerCM {
     						e.printStackTrace();
     					}
                 		break;
+
                 	case "inserisciDati":
                 		String n = reader.readLine();
                 		String c = reader.readLine();
@@ -140,6 +143,7 @@ public class ServerCM {
                 		String cm = reader.readLine();
                 		inserisciDati(n, c, cf, e, us, pw, cm);
                 		break;
+
                 	case "verificaCentroEsistente":
                 		String x = reader.readLine();
                 		try {
@@ -159,6 +163,7 @@ public class ServerCM {
     						e1.printStackTrace();
     					}
                 		break;
+
                 	case "inserisciParametriClimatici":
                 		String centroM = reader.readLine();
                 		String areaMonitoraggio = reader.readLine();
@@ -177,13 +182,16 @@ public class ServerCM {
     						e1.printStackTrace();
     					}
                 		break;
+
                 	case "getTutteAreeMonitoraggio":
                 		Set<String> Aree = getTutteAreeMonitoraggio();
                 		out.writeObject(Aree);
                 		break;
+
                 	case "chiudiConnessione":
                 		chiudiConnessione();
                 		break;
+
                 	case "getConnection":
                 		try {
     						Connection connection = getConnection();
@@ -192,16 +200,19 @@ public class ServerCM {
     						e1.printStackTrace();
     					}
                 		break;
+
                 	case "isValidCodiceFiscale":
                 		String codFiscale = reader.readLine();
                 		boolean isValid = isValidCodiceFiscale(codFiscale);
                 		out.writeObject(isValid);
                 		break;
+
                 	case "isValidEmail":
                 		String ema = reader.readLine();
                 		boolean isValidema = isValidCodiceFiscale(ema);
                 		out.writeObject(isValidema);
                 		break;
+
                 	case "registraDati":
                 		String nom = reader.readLine();
                 		String cognom = reader.readLine();
@@ -213,21 +224,22 @@ public class ServerCM {
                 		try {
     						registraDati(nom, cognom, codiceFiscal, emai, usernam, passwor, centroMonitoraggi);
     					} catch (SQLException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					} catch (UsernameEsistenteException e1) {
-    						// TODO Auto-generated catch block
     						e1.printStackTrace();
     					}
                 		break;
+
                 	case "searchByNameOrState":
                 		String area = reader.readLine();
                 		searchByNameOrState(area);
                 		break;
+
                 	case "getRisultati":
                 		List<AreaGeografica> risultati = getRisultati();
                 		out.writeObject(risultati);
                 		break;
+
                 	case "searchByCoordinates":
                 		String latitude = reader.readLine();
                 		System.out.println("ricevuta lat: " + latitude);
@@ -239,14 +251,16 @@ public class ServerCM {
                 		AreaGeografica closestArea = getClosestArea();
                 		ServerCM.out.writeObject(closestArea);
                 		break;
+						
                 	case "getClosestArea":
                 		try {
     						AreaGeografica areaG = getClosestArea();
     						out.writeObject(areaG);
-    					} catch (Exception e1) {
+    					} catch (IOException e1) {
     						e1.printStackTrace();
     					}
                 		break;
+
                 	case "calculateDistance":
                 		double lat1 = reader.read();
                 		double lon1 = reader.read();
@@ -255,22 +269,27 @@ public class ServerCM {
                 		double distance = calculateDistance(lat1, lon1, lat2, lon2);
                 		out.writeObject(distance);
                 		break;
+
                 	case "connectToDatabase":
                 		connectToDatabase();
                 		break;
+
                 	case "loadComment":
                 		String stringa = reader.readLine();
                 		loadComment(stringa);
                 		break;
+
                 	case "getResultSet":
                 		ResultSet rs = getResultSet();
                 		out.writeObject(rs);
                 		break;
+
                 	case "saveComment":
                 		String areaName = reader.readLine();
                 		String comment = reader.readLine();
                 		saveComment(areaName, comment);
                 		break;
+
                 	case "registraCentroAree":
                 		String name = reader.readLine();
                 		String via = reader.readLine();
@@ -285,16 +304,16 @@ public class ServerCM {
     						e1.printStackTrace();
     					}
                 		break;
+						
                 	case "salvaCentroNelDatabase":
                 		try {
     						CentroMonitoraggio centro = (CentroMonitoraggio) in.readObject();
     						salvaCentroNelDatabase(centro);
-    					} catch (ClassNotFoundException e1) {
-    						e1.printStackTrace();
-    					} catch (SQLException e1) {
+    					} catch (ClassNotFoundException | SQLException e1) {
     						e1.printStackTrace();
     					}
                 		break;	
+	
                 	case "getCredentials":
                 		out.writeObject(dbUsername);
                 		out.writeObject(dbPassword);
@@ -496,8 +515,8 @@ public class ServerCM {
             pst.setString(1, areaName);
             ResultSet rs = pst.executeQuery();
             } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Errore durante il caricamento del commento.", "Errore", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Errore durante il caricamento del commento.", "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
     
