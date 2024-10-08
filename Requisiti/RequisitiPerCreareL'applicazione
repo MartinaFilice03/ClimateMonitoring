@@ -1,0 +1,93 @@
+Il Progetto - Climate Monitoring
+1. Un sistema di monitoraggio di parametri climatici fornito da centri di monitoraggio sul territorio italiano, in grado di rendere disponibili, 
+ad operatori ambientali e comuni cittadini, i dati relativi alla propria zona di interesse
+
+2. Parametri rilevati per una zona geografica: indicano l’intensità del fenomeno su una scala che va da 1 (critico) a 5 (ottimale). Note opzionali testuali (max 256 caratteri liberi):
+	- vento (velocità del vento km/h, suddivisa in fasce
+	- umidità: % di Umidità, suddivisa in fasce
+	- pressione in hPa, suddivisa in fasce 
+	- Temperatura in °C, suddivisa in fasce 
+	- Precipitazioni in mm di pioggia, suddivisa in fasce 
+	- altitudine dei ghiacci in m, suddivisa in fasce 
+	- Massa dei ghiacci in kg, suddivisa in fasce
+3. A partire da una repository di dati (da costruire), l’applicazione Climate Monitoring permette:
+	a. Ad operatori autorizzati di creare una o più aree di interesse (tramite coordinate geografiche), raggrupparle per centro di monitoraggio e annotarle 
+    singolarmente con i parametri forniti ad un operatore in una specifica data, secondo i parametri dati nella tabella precedente
+	b. Ai comuni cittadini di mostrare per un prospetto riassuntivo sui parametri climatici in forma aggregata per ciascuna area di interesse
+
+4. Prima di progettare l’applicazione è necessario costruire un Database con una Tabella denominata CoordinateMonitoraggio, dove memorizzare i luoghi geografici 
+oggetti di monitoraggio, che deve contenere almeno i seguenti campi:
+ 	a. Latitudine
+	b. Longitudine
+	c. Denominazione ufficiale
+	d. Stato
+
+5. L’applicazione permette di:
+	a. Consultare le informazioni del repository delle aree di interesse (accesso libero ai comuni cittadini):
+		- funzionalità di ricerca cercaAreaGeografica():
+			1. Ricerca per denominazione (prende in input una stringa di caratteri e restituisce le aree nel cui nome compare la stringa di caratteri) er per Stato di appartenenza
+			2. Ricerca per coordinate geografiche (prende in input una latitudine e longitudine e restituisce il nome dell’area corrispondente alle 
+            coordinate geografiche/delle aree corrispondenti con coordinate più vicine)
+		- funzionalità di selezione e visualizzazione visualizzaGeografica():
+			1. Una volta trovata l’area di interesse, deve essere possibile visualizzare tutte le informazioni relative ad essa
+			2. Tra le informazioni deve esserci un prospetto riassuntivo dei parametri climatici associati a quell’area o l’indicazione che l’area non 
+            contiene dati inseriti dagli operatori. Se presenti, si potranno visualizzare tali dati in forma aggregata (ad esempio, numero di rilevazioni per ciascun parametro 
+            e statistica opportuna del punteggio), oltre agli eventuali commenti lasciati dagli operatori)
+	b. Registrarsi all’applicazione (solo operatori dei centri di monitoraggio) tramite la funzione registrazione() e l’operatore deve inserire:
+            - nome e cognome
+            - codice fiscale
+            - indirizzo di posta elettronica
+            - userid
+            - password per accedere al sistema
+            - centro di monitoraggio di afferenza (se presente, altrimenti si veda: creazione centri monitoraggio)
+        - I dati della registrazione devono essere salvati in una tabella del DB denominata OperatoriRegistrati
+	c. Creare centri di monitoraggio ed aggiungervi aree di interesse (solo operatori registrati e solo dopo login) l'utente registrato:
+            - deve autenticarsi traite userid e password fornite al momento della registrazione
+            - tramite la funzione registraCentroAree() deve inserire:
+                1. Nome Centro monitoraggio
+                2. Indirizzo fisico (via/piazza, numero civio, cap, comune, provincia)
+                3. Elenco aree di interesse di cui l'operatore intende inserire i parametri climatici
+        - I dati di ogni centro monitoraggio sono memorizzati in una tablle del DB denominata CentriMonitoraggio
+        - Nota: la tabella del DB OperatoriRegistrati deve essere aggiornata con un riferimento al centro di monitoraggio appena creato, che risulterà essere il centro di
+                riferimento dell'operatore
+	d. Inserire i dati rielaborati secondo la scala fornita e relativi ai parametri climatici (solo operatori registrati e solo dopo login) per ciascuna area di 
+    interesse per quel centro di monitoraggio, per una specifica data di rilevazione, l'operatore registrato:
+            - deve autenticarsi tramite userid e password fornite al momento della registrazione
+            - può ricercare e selezionare l'area di interesse all’interno delle aree registrate per il suo centro di monitoraggio
+            - può ora usare la funzione inserisciParametriClimatici() (centro di monitoraggio, area di interesse, data di rilevazione e parametri climatici associati
+            dall’operatore sono memorizzati nella tabella del DB ParametriClimatici)
+
+6. All'avvio l'applicazione mostra un men+ iniziale dove:
+- Tutti possono: 
+    • cercare aree tramite nome, stato o coordinate geografiche
+    • visualizzare i parametri climatici associati a ciascuna area di interesse
+
+- Gli operatori autorizzati possono: 
+    • Registrarsi/loggarsi all’applicazione
+    • creare centri di monitoraggio con l'elenco delle aree di interesse
+    • inserire i valori dei parametri climatici per un'area di interesse
+
+7. La Piattaforma Climate Monitoring (CM) consiste di:
+    1.un modulo serverCM, che interfacciandosi con un DBMS relazionale (PostgreSQL) fornisce servizi di back-end
+    2.un modulo clientCM, che fornisce tutti i servizi e funzionalità designate per gli ultilizzatori dell’applicazione
+
+    - Al lancio di serverCM deve essere richiesto di specificare:
+        1.le credenziali per accedere al dbCM (database di supporto all’esecuzione dei servizi della piattaforma CM)
+        2.l’host del DB
+
+    - Una volta lanciato serverCM, questo dovrà rimanere in attesa di richieste di connessione da parte di client clientCM
+    L’applicazione CM dovrà essere realizzata in modo tale da supportare l'interazione in parallelo con più utenti connessi alla piattaforma da
+    postazioni (client) differenti 
+
+8. Strutture dati:
+    ▪ CoordinateMonitoraggio
+    ▪ OperatoriRegistrati
+    ▪ CentriMonitoraggio
+    ▪ ParametriClimatici
+
+9. Cosa e come memorizzare su DB (e relativa progettazione)
+
+10. Interfaccia utente con interfaccia grafica
+
+11. Gestione della Concorrenza (i servizi dell'applicazione vengono erogati in parallelo a più utenti, e
+possono verificarsi accessi concorrenti a risorse condivise)
