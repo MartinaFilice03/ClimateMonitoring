@@ -183,20 +183,6 @@ public class DatabaseManager {
         return connection;
     }
 
-    // Metodo per chiudere le risorse ResultSet e PreparedStatement
-    private void closeResources(ResultSet resultSet, PreparedStatement preparedStatement) {
-        try {
-            if (resultSet != null) resultSet.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Errore durante la chiusura del ResultSet: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-        try {
-            if (preparedStatement != null) preparedStatement.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Errore durante la chiusura del PreparedStatement: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
     public Connection getConnection() {
         throw new UnsupportedOperationException("Unimplemented method 'getConnection'");
     }

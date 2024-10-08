@@ -94,9 +94,9 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
         }
     	
     	if(paginaIniziale == null) {
-    		this.paginaIniziale = new PaginaIniziale();
+    		CercaAreaGeograficaFrame.paginaIniziale = new PaginaIniziale();
     	}else {
-    		this.paginaIniziale = paginaIniziale;
+    		CercaAreaGeograficaFrame.paginaIniziale = paginaIniziale;
     	}
     	
         // Impostazioni del frame
@@ -206,7 +206,7 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
     private void updateHistory() {
         historyArea.setText(""); // Cancella il contenuto dell'area di testo
         for (int i = searchHistory.size() - 1; i >= 0; i--) {
-            historyArea.insert(searchHistory.get(i) + "\n", 0); // Inserisci l'elemento in cima alla pila
+            historyArea.insert(searchHistory.get(i) + "\n", 0);
         }
     }
 
@@ -264,9 +264,7 @@ public class CercaAreaGeograficaFrame extends JFrame implements ActionListener {
                 AreaGeografica closestArea = null;
 				try {
 					closestArea = (AreaGeografica) ClientCM.in.readObject();
-				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
+				} catch (ClassNotFoundException | IOException e1) {
 					e1.printStackTrace();
 				}
                 if (closestArea != null) {

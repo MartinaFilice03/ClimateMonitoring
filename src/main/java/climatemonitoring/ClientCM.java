@@ -53,7 +53,6 @@ public class ClientCM {
         	}finally {
         		 // Chiude le risorse
                 //socket.close();
-
         	}
             
         } catch (UnknownHostException ex) {
