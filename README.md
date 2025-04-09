@@ -1,16 +1,57 @@
-1. Installazione di Maven su macOS
-Su macOS, puoi installare Maven utilizzando Homebrew, un gestore di pacchetti per macOS
+# ** Guida all'Installazione e Configurazione di Maven
 
-a) Installare Homebrew (se non è già installato): apri il terminale e inserisci il seguente comando per installare Homebrew:
+## ** 1. Installazione di Maven
+
+### **macOS**
+a) Installare Homebrew (se non già presente)
+
+Apri il terminale e inserisci il seguente comando:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-b)Installare Maven: una volta installato Homebrew, puoi installare Maven con il comando 
+b) Installare Maven
+
+Una volta installato Homebrew, esegui:
 brew install maven
-- Per verificare l'installazione di Maven e controllare la versione installata, esegui:
+
+c) Verificare l'installazione
+
+Controlla che Maven sia installato correttamente con:
 mvn -version
 
-2. Configurazione del Progetto Maven
-a) Struttura del progetto: assicurati che il tuo progetto segua la seguente struttura standard di Maven:
+### **Windows**
+a) Scaricare Maven
+
+Vai al sito ufficiale:
+- https://maven.apache.org/download.cgi
+Scarica l’archivio ZIP con la versione binaria (es: Binary zip archive)
+
+b) Estrarre Maven
+Estrai il contenuto in una directory a tua scelta (es: C:\Programmi\Apache\Maven)
+
+c) Impostare le variabili d'ambiente
+
+Vai su:
+
+Pannello di Controllo > Sistema e Sicurezza > Sistema > Impostazioni di sistema avanzate > Variabili d'ambiente
+Aggiungi:
+
+M2_HOME: punta alla directory dove hai estratto Maven
+(es: C:\Programmi\Apache\Maven)
+Aggiungi Maven al PATH: inserisci %M2_HOME%\bin
+d) Verificare l’installazione
+
+Apri il Prompt dei Comandi e digita:
+
+mvn -v
+Dovresti vedere un output simile a:
+
+Apache Maven 3.x.x (rxxxxxxxxxxxxx)
+Java version: 1.8.0_xxx, vendor: Oracle Corporation
+
+
+2. Creazione e Struttura di un Progetto Maven
+
+a) Struttura consigliata del progetto
 project-root/
 ├── src/
 │   ├── main/
@@ -23,10 +64,11 @@ project-root/
 │       └── java/
 ├── pom.xml
 
-b) File pom.xml: il file pom.xml è il cuore del progetto Maven. Dovrebbe contenere le dipendenze e le configurazioni del progetto. Un esempio di pom.xml potrebbe essere:
+b) Esempio di file pom.xml
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
@@ -39,13 +81,12 @@ b) File pom.xml: il file pom.xml è il cuore del progetto Maven. Dovrebbe conten
     </properties>
 
     <dependencies>
-        <!-- PostgreSQL JDBC Driver -->
+        <!-- Driver JDBC PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.6.0</version>
         </dependency>
-        <!-- Altre dipendenze qui -->
     </dependencies>
 
     <build>
@@ -63,52 +104,29 @@ b) File pom.xml: il file pom.xml è il cuore del progetto Maven. Dovrebbe conten
     </build>
 </project>
 
-3. Comandi Maven per Compilare ed Eseguire il Progetto
-a) Pulizia del Progetto
+3. Comandi Utili di Maven
 
-Prima di compilare, puoi eseguire un comando di pulizia per rimuovere tutti i file compilati in precedenza: mvn clean
+Comando	Descrizione
+mvn clean -> Pulisce i file compilati precedenti
+mvn compile -> Compila le classi del progetto
+mvn test	-> Compila ed esegue i test (se presenti)
+mvn package -> Crea un file .jar nella cartella target
+java -jar target/NomeFile.jar -> Esegue il file JAR generato
 
-b) Compilazione del Progetto
-Per compilare il progetto, esegui il comando: mvn test
-Questo comando compilerà tutte le classi Java nel progetto
+Puoi anche eseguire il file .jar con doppio clic, e si aprirà la pagina corrispondente al progetto (Server/Client).
 
-c) Esecuzione dei Test (Opzionale)
-Se hai dei test nel progetto, puoi eseguirli con: mvn test
+⚙4. Creazione di un Progetto Maven da Terminale (Windows/macOS)
 
-d) Creazione del Pacchetto (Jar)
-Per creare un file JAR eseguibile del progetto:
-mvn package
-Questo comando creerà un file JAR nella cartella target del progetto.
+Esegui il seguente comando nel terminale o nel Prompt dei Comandi:
 
-e) Esecuzione del Progetto
-Per eseguire il progetto, puoi usare il comando seguente, specificando il file JAR generato (ad esempio):
-java -jar target/ServerCM.jar
+mvn archetype:generate \
+  -DgroupId=com.example \
+  -DartifactId=my-app \
+  -DarchetypeArtifactId=maven-archetype-quickstart \
+  -DinteractiveMode=false
 
-Oppure puoi fare il doppio click direttamente sul file jar e si apre la pagina di Server/Client in base a quale file .jar è stato svolto il doppio click
+Note:
 
-1. Installazione di Maven su Windows
-
-a) Sul sito ufficiale https://maven.apache.org/download.cgi scegliere la versione binaria di Maven (ad es., "Binary zip archive") e scaricare il file .zip.
-
-b) Estrarre il contenuto della cartella compressa in una directory a vostra scelta.
-
-c) Andare su Pannello di controllo > Sistema e sicurezza > Sistema > Impostazioni di sistema avanzate > Variabili d'ambiente, e creare due nuove variabili d'ambiente:
-    I) La prima chiamata "M2_HOME" che punta alla directory appena estratta
-    II) La seconda chiamata "PATH" che punta alla medesima cartella del punto I
-
-d) Verificare l'installazione aprendo il Prompt dei Comandi e digitare "mvn -v", se avete fatto tutto correttamente il risultato dovrebbe essere simile a questo:
-    Apache Maven 3.x.x (rxxxxxxxxxxxxx)
-    Maven home: C:\Programmi\Apache\Maven
-    Java version: 1.8.0_xxx, vendor: Oracle Corporation
-    Java home: C:\Programmi\Java\jdk1.8.0_xxx\jre
-    Default locale: en_US, platform encoding: Cp1252
-    OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
-
-2. Creazione di un progetto Maven
-Per creare un progetto Maven si può agire dal Prompt dei Comandi e digitare la stringa seguente:
-    mvn archetype:generate -DgroupId=com.example -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
-
-    in cui:
-    I) my-app è il nome del vostro progetto che potete cambiare
-    II) com.example è l'identificativo del gruppo del progetto in formato dominio (anch'esso è modificabile)
-    III) gli altri parametri sono descrittivi dell'azione che state compiendo e modificarli è sconsigliato
+my-app: è il nome del progetto, modificabile
+com.example: è il groupId, modificabile
+Gli altri parametri definiscono il tipo di progetto e non vanno cambiati se non necessario
