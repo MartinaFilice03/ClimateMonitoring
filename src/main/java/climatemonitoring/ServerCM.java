@@ -1,5 +1,4 @@
-// Autori: Casalini Iacopo (753132, Varese); Filice Martina (752916, Varese) e Radice Samuele (753722, Varese)
-
+//Autori: Casalini Iacopo (753132, Varese); Filice Martina (752916, Varese) e Radice Samuele (753722, Varese)
 package climatemonitoring;
 
 import java.io.BufferedReader;
@@ -18,9 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import javax.swing.JOptionPane;
-
 import climatemonitoring.RegistrazioneFrame.UsernameEsistenteException;
 
 public class ServerCM {
@@ -37,7 +34,7 @@ public class ServerCM {
     public static ObjectOutputStream out;
     public static ObjectInputStream in;
 	
-	// COSTRUTTORE
+	//COSTRUTTORE
 	public ServerCM(DatabaseManager databaseManager) {
 		super();
 		ServerCM.databaseManager = databaseManager;
@@ -51,7 +48,7 @@ public class ServerCM {
         dbPassword = JOptionPane.showInputDialog("Inserisci la password:");
         String dbUrl = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbName);
         
-        // CREA E AVVIA SERVER
+        //CREA E AVVIA SERVER
         if(databaseManager == null) {
         	try {
             	databaseManager = new DatabaseManager(dbUrl, dbUsername, dbPassword);
@@ -62,7 +59,7 @@ public class ServerCM {
             }
         }
 
-        // CARICA DRIVER JDBC
+        //CARICA DRIVER JDBC
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
@@ -71,19 +68,19 @@ public class ServerCM {
             return;
         }
         
-        // GESTIONE SOCKET
+        //GESTIONE SOCKET
         try {
         	try {
-        		// Crea un server socket che ascolta sulla porta 5000
+        		//Crea un server socket che ascolta sulla porta 5000
                 ServerSocket serverSocket = new ServerSocket(5000);
                 System.out.println("Server in ascolto sulla porta 5000...");
                 JOptionPane.showMessageDialog(null, "Server avviato.");
 
-                // Attende che un client si connetta
+                //Attende che un client si connetta
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Connessione accettata da " + clientSocket.getInetAddress());
 
-                // Creazione dei flussi di input e output per la comunicazione
+                //Creazione dei flussi di input e output per la comunicazione
                 InputStream input = clientSocket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 
@@ -321,21 +318,20 @@ public class ServerCM {
                 	}
                 }
 
-    	         // Invia un messaggio al server - writer.println()
-    	         // Riceve la risposta dal server - reader.readLine()
+    	         //Invia un messaggio al server - writer.println()
+    	         //Riceve la risposta dal server - reader.readLine()
         	}finally {
-        		// Chiude le risorse
-                //clientSocket.close();
-                //serverSocket.close();
-        	}
+        		//Chiude le risorse
+                clientSocket.close();
+                serverSocket.close();
             } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 	
-	// *** METODI REMOTI ***
+	//METODI REMOTI
     public static void salvaDati(String nome, String cognome, String codiceFiscale, String email, String username, String password, String centroMonitoraggio) throws SQLException, UsernameEsistenteException {
-        // Controlla se il database è inizializzato
+        //Controlla se il database è inizializzato
         if (databaseManager != null) {
             databaseManager.inserisciDati(nome, cognome, codiceFiscale, email, username, password, centroMonitoraggio);
             JOptionPane.showMessageDialog(null, "Registrazione avvenuta con successo!");
