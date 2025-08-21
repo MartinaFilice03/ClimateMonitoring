@@ -1,57 +1,50 @@
-# ** Guida all'Installazione e Configurazione di Maven
+# 🌍 ClimateMonitoring
 
-## ** 1. Installazione di Maven
+Guida completa all’installazione, configurazione e utilizzo del progetto **ClimateMonitoring**, sviluppato in Java con Maven.
 
-### **macOS**
-a) Installare Homebrew (se non già presente)
+## 🛠️ 1. Installazione di Maven
 
-Apri il terminale e inserisci il seguente comando:
+### 🔸 macOS
+
+1. **Installare Homebrew** (se non già presente):
+
+```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-b) Installare Maven
+2. **Installare Maven**:
 
-Una volta installato Homebrew, esegui:
+```bash
 brew install maven
+```
 
-c) Verificare l'installazione
+3. **Verificare l’installazione**:
 
-Controlla che Maven sia installato correttamente con:
+```bash
 mvn -version
+```
 
-### **Windows**
-a) Scaricare Maven
+### 🔹 Windows
 
-Vai al sito ufficiale:
-- https://maven.apache.org/download.cgi
-Scarica l’archivio ZIP con la versione binaria (es: Binary zip archive)
+1. **Scaricare Maven**:  
+   Vai al sito ufficiale: https://maven.apache.org/download.cgi  
+   Scarica il file `.zip` binario (es. _Binary zip archive_).
 
-b) Estrarre Maven
-Estrai il contenuto in una directory a tua scelta (es: C:\Programmi\Apache\Maven)
+2. **Estrai l’archivio** in una cartella (es: `C:\Programmi\Apache\Maven`).
 
-c) Impostare le variabili d'ambiente
+3. **Configura le variabili d'ambiente**:
+   - `M2_HOME`: punta alla directory dove hai estratto Maven (es: `C:\Programmi\Apache\Maven`)
+   - Aggiungi `%M2_HOME%\bin` alla variabile `PATH`
 
-Vai su:
+4. **Verifica l’installazione**:
 
-Pannello di Controllo > Sistema e Sicurezza > Sistema > Impostazioni di sistema avanzate > Variabili d'ambiente
-Aggiungi:
-
-M2_HOME: punta alla directory dove hai estratto Maven
-(es: C:\Programmi\Apache\Maven)
-Aggiungi Maven al PATH: inserisci %M2_HOME%\bin
-d) Verificare l’installazione
-
-Apri il Prompt dei Comandi e digita:
-
+```bash
 mvn -v
-Dovresti vedere un output simile a:
+```
 
-Apache Maven 3.x.x (rxxxxxxxxxxxxx)
-Java version: 1.8.0_xxx, vendor: Oracle Corporation
+## 📁 2. Struttura del Progetto
 
-
-2. Creazione e Struttura di un Progetto Maven
-
-a) Struttura consigliata del progetto
+```
 project-root/
 ├── src/
 │   ├── main/
@@ -63,8 +56,11 @@ project-root/
 │   └── test/
 │       └── java/
 ├── pom.xml
+```
 
-b) Esempio di file pom.xml
+## 🧾 3. Esempio di `pom.xml`
+
+```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
@@ -103,30 +99,42 @@ b) Esempio di file pom.xml
         </plugins>
     </build>
 </project>
+```
 
-3. Comandi Utili di Maven
+## 🔧 4. Comandi Utili Maven
 
-Comando	Descrizione
-mvn clean -> Pulisce i file compilati precedenti
-mvn compile -> Compila le classi del progetto
-mvn test	-> Compila ed esegue i test (se presenti)
-mvn package -> Crea un file .jar nella cartella target
-java -jar target/NomeFile.jar -> Esegue il file JAR generato
+| Comando                         | Descrizione                                           |
+|--------------------------------|-------------------------------------------------------|
+| `mvn clean`                    | Pulisce i file compilati precedenti                  |
+| `mvn compile`                  | Compila le classi del progetto                       |
+| `mvn test`                     | Esegue i test (se presenti)                          |
+| `mvn package`                  | Crea il file `.jar` nella cartella `target`          |
+| `java -jar target/NomeFile.jar` | Esegue il file `.jar` generato                       |
 
-Puoi anche eseguire il file .jar con doppio clic, e si aprirà la pagina corrispondente al progetto (Server/Client).
+⚠️ Puoi anche eseguire il `.jar` con doppio clic: si aprirà la finestra dell’applicazione (server/client).
 
-⚙4. Creazione di un Progetto Maven da Terminale (Windows/macOS)
+## 🚀 5. Creazione di un Nuovo Progetto Maven da Terminale
 
-Esegui il seguente comando nel terminale o nel Prompt dei Comandi:
+Esegui:
 
+```bash
 mvn archetype:generate \
   -DgroupId=com.example \
   -DartifactId=my-app \
   -DarchetypeArtifactId=maven-archetype-quickstart \
   -DinteractiveMode=false
+```
 
-Note:
+- `my-app`: nome del progetto (modificabile)
+- `com.example`: package di base
+- Gli altri parametri definiscono il tipo di progetto Maven
 
-my-app: è il nome del progetto, modificabile
-com.example: è il groupId, modificabile
-Gli altri parametri definiscono il tipo di progetto e non vanno cambiati se non necessario
+## 👥 6. Collaboratori
+- Martina Filice
+- Iacopo Luigi Antonio Casalini
+- Samuele Radice
+
+## 📌 Note Finali
+
+- Assicurati di avere **Java 17** installato.
+- Se vedi errori nel build GitHub, verifica la configurazione Maven o disattiva il CI.
