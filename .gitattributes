@@ -1,0 +1,13 @@
+# Forza eventuali JSP a essere considerati Java
+*.jsp linguist-language=Java
+
+# Escludi file HTML dalla stima dei linguaggi
+*.html linguist-documentation
+
+# Escludi cartelle non di codice (documentazione, requisiti, ecc.)
+doc/** linguist-documentation
+Requisiti/** linguist-documentation
+META-INF/** linguist-documentation
+maven/** linguist-documentation
+eseguibili/** linguist-documentation
+target/** linguist-generated
